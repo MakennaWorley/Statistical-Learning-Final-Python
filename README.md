@@ -73,7 +73,7 @@ project-root/
 │   ├── pca_analysis.py
 │   └── plotting.py
 │
-└── README.md                      # (this file)
+└── README.md
 ```
 
 ---
