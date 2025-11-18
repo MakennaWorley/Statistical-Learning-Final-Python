@@ -1,60 +1,159 @@
 # Statistical Learning Final Project  
-### **Evaluating Linear Models & Shrinkage Methods for Predicting a Simulated Polygenic Trait**
+### **Evaluating Linear & Shrinkage Models for Predicting a Simulated Polygenic Trait + Mechanical Classification Task**
 
 **Author:** Makenna Worley  
 **Course:** Statistical Learning (Fall 2025)  
-**Dataset:** Generated data using [**make_msprime_dataset.py**](https://github.com/MakennaWorley/Capstone-Playground-Python/blob/main/README.md?plain=1) from my Capstone-Playground-Python Repo with seed: 3195663216
+**Dataset:** Generated using `make_msprime_dataset.py` with seed 3195663216  
+**Tools:** Python, scikit-learn, pandas, matplotlib, seaborn  
 
 ---
 
-## 📌 **Project Overview**
+## 📌 Project Overview
 
-This project uses a fully simulated genetic dataset generated with [**msprime**](https://tskit.dev/msprime/docs/stable/intro.html) to investigate how accurately different linear modeling strategies recover the underlying genetic architecture of a polygenic quantitative trait. The dataset includes a polygenic score derived from true causal variants, environmental covariates, demographic information, and optional population structure (PCs), allowing precise control over the ground truth. By comparing simple linear models, subset selection procedures, and shrinkage methods (ridge, lasso, elastic net), this analysis quantifies how much of the trait’s variance is attributable to genetic vs environmental factors and evaluates the stability and interpretability of coefficient estimates. Because the simulation provides the true causal effect sizes (β) used to construct the polygenic score, the project can directly assess how closely each model recovers the real underlying signal.
+This project uses a fully simulated genetic dataset generated via **msprime** to evaluate both **regression** and **classification** methods within a controlled, biologically realistic setting.
 
-This work is completed as part of a Statistical Learning course and focuses on linear regression, subset selection, and shrinkage methods within a controlled genetic simulation framework.
+### ✔ Meaningful Task (Regression)
+The primary focus is on understanding how well **linear models, subset selection methods, and shrinkage techniques** (ridge, lasso, elastic net) recover the **true genetic architecture** of a simulated polygenic quantitative trait. Because the dataset includes the *true causal effect sizes*, this analysis enables direct comparison between estimated and real underlying model coefficients.
 
-The dataset contains:
-
-- A quantitative phenotype (`quant_trait`)
-- A polygenic score (`polygenic_score`)
-- Environmental covariates (`env_index`)
-- Demographic factors (`sex`, `age`)
-- Optional population structure (PC1, PC2)
-- A separate variant file with **true effect sizes** (`beta`) and causal status (`is_causal`)
-
-This setup allows us to directly test which statistical models:
-
-- Predict phenotype best  
-- Capture genetic vs environmental contributions  
-- Produce the most stable and interpretable coefficients  
-- Most closely match the **true** simulated effect sizes  
-
-This project serves as a **stepping stone** for my capstone on probabilistic ancestral genotype inference.
+### ✔ Mechanical Task (Classification)
+To satisfy course requirements, the project also includes a **classification task** using the binary variable `disease_status`. This task demonstrates familiarity with statistical learning classification methods (logistic regression, LDA, QDA, KNN, SVM), but the disease phenotype is intentionally noisy in the simulation, so the regression task is the scientifically meaningful component.
 
 ---
 
-## 🎯 **Research Question**
+## 🧬 Dataset Description
 
-> **How well do linear models, subset selection methods, and shrinkage methods recover the true genetic architecture of a polygenic quantitative trait?**
+The simulation generates two CSV files:
 
-Sub-questions include:
+### **Cohort-level data**
+- `quant_trait` — continuous quantitative phenotype  
+- `polygenic_score` — aggregate genetic risk score  
+- `env_index` — environmental exposure  
+- `sex` — binary categorical  
+- `age` — numerical  
+- `disease_status` — binary response for classification  
+- `PC1`, `PC2` — simulated population structure (neutral)  
 
-1. How much variance in the trait is explained by PRS alone vs environment?  
-2. Do shrinkage methods (ridge, lasso, elastic net) produce more stable and accurate coefficient estimates?  
-3. How do coefficient estimates compare to the true underlying effect sizes?  
-4. Does adding population structure (PCs) improve predictive performance?
+### **Variant-level data**
+- `beta` — true SNP effect sizes  
+- `is_causal` — indicator for causal variants  
+- Only ~5% of variants are causal  
+
+This structure allows evaluation of:
+- Prediction accuracy  
+- Coefficient recovery vs true β  
+- Effect of population structure  
+- Bias/variance performance under shrinkage  
 
 ---
 
-## 📂 **Repository Structure**
+## 🎯 Research Questions
+
+### **Regression (Meaningful Task)**
+> **How well do linear, subset-selection, and shrinkage models recover the true genetic architecture of a simulated polygenic quantitative trait?**
+
+Sub-questions:
+1. How much variance is explained by PRS vs environmental factors?  
+2. Which model yields the best predictive performance (RMSE, R²)?  
+3. Do shrinkage methods improve coefficient stability?  
+4. How closely do estimated coefficients match the true simulation parameters?  
+5. Do PCs from neutral structure influence prediction?  
+
+### **Classification (Mechanical Task)**
+> **How accurately can disease status be predicted from polygenic and environmental predictors?**
+
+This task demonstrates:
+- Logistic regression  
+- LDA / QDA  
+- KNN  
+- SVM  
+- ROC curves, AUC, confusion matrix  
+
+The classification model is less meaningful biologically due to the high stochasticity in the binary disease simulation.
+
+---
+
+## 📊 Methods
+
+### **Regression Models**
+- Simple Linear Regression (`quant_trait ~ PRS`)
+- Multiple Linear Regression (`PRS + sex + age + env_index`)
+- Linear Regression with PCs (`+ PC1 + PC2`)
+- Forward & Backward Stepwise Selection (AIC/BIC)
+- **Ridge Regression**
+- **Lasso Regression**
+- **Elastic Net**
+- **Bootstrap Coefficient Intervals (n=500)**
+
+### **Classification Models**
+- Logistic Regression  
+- Linear Discriminant Analysis (LDA)  
+- Quadratic Discriminant Analysis (QDA)  
+- KNN (k = 11)  
+- SVM with RBF kernel  
+
+All classification models are evaluated using:
+- Accuracy  
+- ROC AUC  
+- Confusion Matrix  
+- ROC Curves  
+
+---
+
+## 🧪 Evaluation Metrics
+
+### **Regression**
+- RMSE (train/test)  
+- R² (train/test)  
+- Cross-validation RMSE  
+- Coefficient stability (bootstrap)  
+- Comparison to true β values  
+- Shrinkage paths  
+
+### **Classification**
+- Accuracy  
+- AUC  
+- ROC curve  
+- Confusion matrix  
+
+---
+
+## 📈 Key Results
+
+### ✔ Regression (Meaningful Task)
+- Full linear model achieves **RMSE ≈ 0.644** and **R² ≈ 0.566**
+- Subset selection consistently chooses:  
+  `['polygenic_score', 'env_index', 'sex']`
+- Shrinkage models yield nearly identical performance  
+- Coefficients align with true architecture hierarchy:
+  - PRS (strongest)
+  - Environment (moderate)
+  - Sex (small)
+  - Age (very small)
+- Bootstrap confirms stability of PRS and env effects  
+- PCs do **not** improve prediction (expected due to neutral simulation)
+
+### ✔ Classification (Mechanical Task)
+Best models:
+- Logistic Regression: accuracy = **0.686**, AUC = **0.758**
+- LDA: accuracy = **0.686**, AUC = **0.758**
+
+Moderate performance due to:
+- Noisy disease simulation  
+- Weak environmental effect  
+- Bernoulli sampling randomness  
+
+KNN performs worst; SVM is decent but doesn’t beat linear methods.
+
+---
+
+## 📂 Repository Structure
 
 ```
 project-root/
 │
 ├── data/
 │   ├── msprime_sim_cohort.csv
-│   ├── msprime_effect_sizes.csv
-│   └── (optional) documentation.txt
+│   └── msprime_effect_sizes.csv
 │
 ├── notebooks/
 │   ├── analysis.ipynb              # Main Jupyter analysis notebook
