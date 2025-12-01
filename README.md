@@ -16,7 +16,7 @@ This project uses a fully simulated genetic dataset generated via **msprime** to
 **Classification task** using the binary variable `disease_status`. This task demonstrates familiarity with statistical learning classification methods (logistic regression, LDA, QDA, KNN, SVM), but the disease phenotype is intentionally noisy in the simulation, so the regression task is the scientifically meaningful component.
 
 ### ✔ Regression
-**Linear models, subset selection methods, and shrinkage techniques** (ridge, lasso, elastic net) recover the **true genetic architecture** of a simulated polygenic quantitative trait. Because the dataset includes the *true causal effect sizes*, this analysis enables direct comparison between estimated and real underlying model coefficients.
+**Linear models, subset selection methods, and shrinkage techniques** (ridge, lasso, elastic net) recover the **true genetic architecture** of a simulated polygenic `quant_trait`. Because the dataset includes the *true causal effect sizes*, this analysis enables direct comparison between estimated and real underlying model coefficients.
 
 ---
 
@@ -156,9 +156,9 @@ project-root/
 │   └── msprime_effect_sizes.csv
 │
 ├── notebooks/
-|   ├── analysis.ipynb              # Main Jupyter analysis notebook
+|   ├── final.ipynb                 # Main Jupyter analysis notebook
+|   ├── analysis.ipynb              # Playground for my analysis
 │   └── exploratory.ipynb           # EDA and initial exploration
-│
 │
 └── README.md
 ```
@@ -227,8 +227,8 @@ All figures are saved under the `figures/` directory.
 
 #### 1️⃣ **Clone the repository**
 ```bash
-git clone https://github.com/<your-username>/<repo-name>.git
-cd <repo-name>
+git clone https://github.com/MakennaWorley/SL-Final-Python.git
+cd SL-Final-Python
 ```
 
 #### 2️⃣ **Create and activate the environment**
@@ -237,11 +237,11 @@ conda env create -f environment.yml
 conda activate data370
 ```
 
-#### 3️⃣ **Run the analysis notebook**
+#### 3️⃣ **Run the final notebook**
 Open:
 
 ```
-notebooks/analysis.ipynb
+notebooks/final.ipynb
 ```
 
 This provides an interactive comparison of model performance.
