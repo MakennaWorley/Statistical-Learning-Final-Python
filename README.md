@@ -156,9 +156,13 @@ project-root/
 │   └── msprime_effect_sizes.csv
 │
 ├── notebooks/
-|   ├── final.ipynb                 # Main Jupyter analysis notebook
-|   ├── analysis.ipynb              # Playground for my analysis
+│   ├── final.ipynb                 # Main Jupyter analysis notebook
+│   ├── final.html                  # HTML export of final.ipynb
+│   ├── analysis.ipynb              # Playground for my analysis
 │   └── exploratory.ipynb           # EDA and initial exploration
+│
+├── streamlit/
+│   └── utils.py                    # Streamlit visualization interface
 │
 └── README.md
 ```
@@ -242,6 +246,18 @@ Open:
 
 ```
 notebooks/final.ipynb
+```
+
+#### 4️⃣ **(Optional) Launch the Streamlit visualization**
+```bash
+cd streamlit
+streamlit run app.py
+```
+
+#### 4️⃣ **(Optional) Launch the Streamlit visualization**
+```bash
+cd streamlit
+streamlit run app.py
 ```
 
 This provides an interactive comparison of model performance.
