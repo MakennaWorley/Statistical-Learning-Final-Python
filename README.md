@@ -20,6 +20,8 @@ The **classification task** uses the binary variable `disease_status`. This task
 
 **Linear models, subset selection methods, and shrinkage techniques** (ridge, lasso, elastic net) are used to recover the **true genetic architecture** of a simulated polygenic `quant_trait`. Because the dataset includes the *true causal effect sizes*, this analysis enables a direct comparison between estimated and real underlying model coefficients.
 
+[Overview Youtube Video](https://youtu.be/BKJO8UvWFnU)
+
 ---
 
 ## 🧬 Dataset Description
